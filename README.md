@@ -12,7 +12,7 @@ pi-blaster-mock is written in python and uses TK to display the rgb colors, whic
 ## Usage
 To start pi-blaster-mock execute:
 
-    sudo python3 pi-blaster-mock
+    sudo python3 pi-blaster-mock.py
 
 pi-blaster-mock requires 'sudo' to acquire the fifo-device at /dev/pi-blaster.
 The device is created if non-existent and removed on exit.
