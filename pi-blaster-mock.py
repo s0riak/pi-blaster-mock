@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+1#!/usr/bin/python3
 # Copyright (c) 2016 Sebastian Kanis
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -198,18 +198,24 @@ def initInput():
     if not os.path.exists(VIRTUAL_DEVICE_PATH):
         os.mkfifo(VIRTUAL_DEVICE_PATH)  
     os.chmod(VIRTUAL_DEVICE_PATH, 442)
+    print("created virtual device " + VIRTUAL_DEVICE_PATH)
 
 def cleanUpAndExit(signal, frame):
     print('Cancelled!')
     #remove the virtual device (FIFO) if existent
     if os.path.exists(VIRTUAL_DEVICE_PATH):
         os.remove(VIRTUAL_DEVICE_PATH)
+        print("removed virtual device " + VIRTUAL_DEVICE_PATH)
     sys.exit(0)
 
+def onWindowClosed():
+    cleanUpAndExit(None, None)
+    
 initInput()
 #react to CTRL+C in the command line
 signal.signal(signal.SIGINT, cleanUpAndExit)
 app = UI(None)
+app.protocol("WM_DELETE_WINDOW", onWindowClosed)
 app.title('pi-blaster rgb mock')
 app.after(0, app.initColorUpdater)
 app.mainloop()
